@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>DarsanaMart - Products</title>
 
     <style>
@@ -13,36 +15,56 @@
         }
 
         header {
-            background-color: #333;
+            background-color: green;
             color: white;
             padding: 20px;
             text-align: center;
         }
 
         .products {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             padding: 30px;
-            justify-content: center;
         }
 
         .product {
-            background: white;
-            width: 220px;
+            background-color: white;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .product h2 {
-            margin-bottom: 10px;
+            margin-top: 0;
         }
 
         .price {
-            font-size: 18px;
             font-weight: bold;
+            font-size: 18px;
+        }
+
+        .quantity {
+            margin-bottom: 15px;
+        }
+
+        .add-cart {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-cart:hover {
+            background-color: darkgreen;
+        }
+
+        .cart-link {
+            display: block;
+            text-align: center;
+            margin: 20px;
         }
     </style>
 </head>
@@ -54,19 +76,45 @@
     <p>Our Products</p>
 </header>
 
+<div class="cart-link">
+    <a href="/cart">🛒 View Cart</a>
+</div>
+
 <div class="products">
 
     <div class="product" th:each="product : ${products}">
+
         <h2 th:text="${product.name}">Product Name</h2>
 
         <p class="price">
-            ₹<span th:text="${product.price}">0.00</span>
+            Price: ₹<span th:text="${product.price}">0.00</span>
         </p>
 
-        <p>
-            Quantity:
+        <p class="quantity">
+            Available Quantity:
             <span th:text="${product.quantity}">0</span>
         </p>
+
+        <form action="/cart/add" method="post">
+
+            <input type="hidden"
+                   name="productName"
+                   th:value="${product.name}">
+
+            <input type="hidden"
+                   name="price"
+                   th:value="${product.price}">
+
+            <input type="hidden"
+                   name="quantity"
+                   value="1">
+
+            <button type="submit" class="add-cart">
+                Add to Cart
+            </button>
+
+        </form>
+
     </div>
 
 </div>

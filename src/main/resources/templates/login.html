@@ -1,84 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>DarsanaMart - Login</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
-
         body {
-            margin: 0;
             font-family: Arial, sans-serif;
-            background: #f2f2f2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
         }
 
-        .login-box {
+        .header {
+            background-color: green;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .login-container {
             width: 350px;
-            background: white;
+            margin: 50px auto;
+            background-color: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
-        h1 {
+        h2 {
             text-align: center;
-            color: #333;
-            margin-bottom: 25px;
         }
 
         label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
+            margin-top: 15px;
         }
 
         input {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 10px;
+            margin-top: 5px;
+            box-sizing: border-box;
         }
 
         button {
             width: 100%;
-            padding: 12px;
-            background: #007bff;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: green;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
         }
 
-        button:hover {
-            background: #0056b3;
-        }
-
-        .register {
+        .register-link {
             text-align: center;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
-        .register a {
-            color: #007bff;
+        .register-link a {
+            color: green;
             text-decoration: none;
+            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
 
-<div class="login-box">
+<div class="header">
     <h1>DarsanaMart</h1>
+    <p>Welcome to DarsanaMart</p>
+</div>
+
+<div class="login-container">
+
+    <h2>Login</h2>
 
     <form action="/login" method="post">
 
@@ -89,22 +90,4 @@
                placeholder="Enter username"
                required>
 
-        <label for="password">Password</label>
-        <input type="password"
-               id="password"
-               name="password"
-               placeholder="Enter password"
-               required>
-
-        <button type="submit">Login</button>
-
-    </form>
-
-    <div class="register">
-        Don't have an account?
-        <a href="/register">Register</a>
-    </div>
-</div>
-
-</body>
-</html>
+        <label
