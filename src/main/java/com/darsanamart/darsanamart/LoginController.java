@@ -1,30 +1,39 @@
 package com.darsanamart.darsanamart;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
-@RequestMapping("/login")
-@CrossOrigin(origins = "*")
+@Controller
 public class LoginController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @PostMapping
-    public String login(@RequestBody User user) {
+    public LoginController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-        User existingUser = userRepository.findAll()
-                .stream()
-                .filter(u -> u.getUsername().equals(user.getUsername())
-                        && u.getPassword().equals(user.getPassword()))
-                .findFirst()
-                .orElse(null);
+    @GetMapping("/")
+    public String loginPage() {
+        return "login";
+    }
 
-        if (existingUser != null) {
-            return "Login successful";
-        }
+    @GetMapping("/login")
+    public String loginPage2() {
+        return "login";
+    }
 
-        return "Invalid username or password";
+    @PostMapping("/login")
+    public String loginUser(
+            @RequestParam String username,
+            @RequestParam String password) {
+
+        return userRepository.findAll().stream()
+                .anyMatch(user ->
+                        user.getUsername().equals(username)
+                        && user.getPassword().equals(password))
+                ? "redirect:/products"
+                : "redirect:/";
     }
 }

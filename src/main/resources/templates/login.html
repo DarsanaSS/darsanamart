@@ -84,10 +84,32 @@
     <form action="/login" method="post">
 
         <label for="username">Username</label>
+
         <input type="text"
                id="username"
                name="username"
                placeholder="Enter username"
                required>
 
-        <label
+        <label for="password">Password</label>
+
+        <input type="password"
+               id="password"
+               name="password"
+               placeholder="Enter password"
+               required>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+    <div class="register-link">
+        <p>Don't have an account?</p>
+
+        <a href="/register">Create an account</a>
+    </div>
+
+</div>
+
+</body>
+</html>
