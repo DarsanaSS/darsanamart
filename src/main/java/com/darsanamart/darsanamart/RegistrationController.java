@@ -22,13 +22,10 @@ public class RegistrationController {
     @PostMapping("/register")
     public String registerUser(
             @RequestParam String username,
+            @RequestParam String email,
             @RequestParam String password) {
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setRole("USER");
-
+        User user = new User(username, email, password, "BUYER");
         userRepository.save(user);
 
         return "redirect:/";

@@ -18,41 +18,83 @@
             background-color: green;
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
         }
 
         .checkout {
             width: 80%;
             margin: 30px auto;
             background-color: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .username {
+            font-size: 18px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
         }
 
         .item {
-            border-bottom: 1px solid #ddd;
-            padding: 15px 0;
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+
+        .item p {
+            margin: 10px 0;
         }
 
         .total {
             text-align: right;
-            font-size: 22px;
+            font-size: 24px;
             font-weight: bold;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
-        button {
+        .place-order {
             display: block;
-            margin: 25px 0 0 auto;
-            padding: 12px 25px;
+            width: 200px;
+            margin: 25px auto 0;
+            padding: 12px;
             background-color: green;
             color: white;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
             font-size: 16px;
+            cursor: pointer;
+        }
+
+        .place-order:hover {
+            background-color: darkgreen;
+        }
+
+        .back-button {
+            display: block;
+            width: 200px;
+            margin: 15px auto;
+            padding: 12px;
+            background-color: #555;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
         }
     </style>
+
 </head>
 
 <body>
@@ -66,36 +108,66 @@
 
     <h2>Order Summary</h2>
 
-    <div class="item" th:each="item : ${cartItems}">
+    <div class="username">
 
-        <h3 th:text="${item.productName}">
-            Product Name
-        </h3>
+        <strong>Username:</strong>
+        <span th:text="${username}">
+            username
+        </span>
 
-        <p>
-            Quantity:
-            <span th:text="${item.quantity}">1</span>
-        </p>
-
-        <p>
-            Price: ₹<span th:text="${item.price}">0</span>
-        </p>
-
-    </div>
-
-    <div class="total">
-        Total: ₹<span th:text="${total}">0</span>
     </div>
 
     <form action="/order/place" method="post">
 
-        <button type="submit">
+        <div class="item"
+             th:each="item : ${cartItems}">
+
+            <p>
+                <strong>Product ID:</strong>
+                <span th:text="${item.productId}"></span>
+            </p>
+
+            <p>
+                <strong>Product Name:</strong>
+                <span th:text="${item.productName}"></span>
+            </p>
+
+            <p>
+                <strong>Quantity:</strong>
+                <span th:text="${item.quantity}"></span>
+            </p>
+
+            <p>
+                <strong>Price:</strong>
+                ₹<span th:text="${item.price}"></span>
+            </p>
+
+            <p>
+                <strong>Subtotal:</strong>
+                ₹<span th:text="${item.price * item.quantity}"></span>
+            </p>
+
+        </div>
+
+        <div class="total">
+
+            Total Amount:
+            ₹<span th:text="${total}"></span>
+
+        </div>
+
+        <button type="submit" class="place-order">
             Place Order
         </button>
 
     </form>
 
+    <a href="/cart" class="back-button">
+        Back to Cart
+    </a>
+
 </div>
 
 </body>
+
 </html>

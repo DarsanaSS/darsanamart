@@ -6,29 +6,25 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Cart {
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String username;
-    private Long productId;
     private String productName;
-    private double price;
-    private int quantity;
+    private int rating;
+    private String comment;
 
-    public Cart() {
+    public Review() {
     }
 
-    public Cart(String username, Long productId, String productName,
-                double price, int quantity) {
-
+    public Review(String username, String productName, int rating, String comment) {
         this.username = username;
-        this.productId = productId;
         this.productName = productName;
-        this.price = price;
-        this.quantity = quantity;
+        this.rating = rating;
+        this.comment = comment;
     }
 
     public Long getId() {
@@ -47,14 +43,6 @@ public class Cart {
         this.username = username;
     }
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
     public String getProductName() {
         return productName;
     }
@@ -63,19 +51,19 @@ public class Cart {
         this.productName = productName;
     }
 
-    public double getPrice() {
-        return price;
+    public int getRating() {
+        return rating;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public String getComment() {
+        return comment;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -10,24 +10,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
             margin: 0;
+            background-color: #f5f5f5;
         }
 
-        .header {
+        header {
             background-color: green;
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 25px;
         }
 
-        .login-container {
-            width: 350px;
+        header h1 {
+            margin: 0;
+        }
+
+        .login {
+            width: 400px;
             margin: 50px auto;
             background-color: white;
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
         h2 {
@@ -37,24 +41,32 @@
         label {
             display: block;
             margin-top: 15px;
+            font-weight: bold;
         }
 
         input {
             width: 100%;
-            padding: 10px;
-            margin-top: 5px;
+            padding: 12px;
+            margin-top: 8px;
             box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
             width: 100%;
-            padding: 10px;
-            margin-top: 20px;
+            margin-top: 25px;
+            padding: 12px;
             background-color: green;
             color: white;
             border: none;
             border-radius: 5px;
+            font-size: 16px;
             cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgreen;
         }
 
         .register-link {
@@ -65,51 +77,42 @@
         .register-link a {
             color: green;
             text-decoration: none;
-            font-weight: bold;
         }
     </style>
 </head>
 
 <body>
 
-<div class="header">
+<header>
     <h1>DarsanaMart</h1>
-    <p>Welcome to DarsanaMart</p>
-</div>
+    <p>Login to Your Account</p>
+</header>
 
-<div class="login-container">
+<div class="login">
 
     <h2>Login</h2>
 
     <form action="/login" method="post">
 
-        <label for="username">Username</label>
+        <label>Username or Email</label>
+        <input type="text" name="usernameOrEmail" required>
 
-        <input type="text"
-               id="username"
-               name="username"
-               placeholder="Enter username"
-               required>
+        <label>Password</label>
+        <input type="password" name="password" required>
 
-        <label for="password">Password</label>
-
-        <input type="password"
-               id="password"
-               name="password"
-               placeholder="Enter password"
-               required>
-
-        <button type="submit">Login</button>
+        <button type="submit">
+            Login
+        </button>
 
     </form>
 
     <div class="register-link">
-        <p>Don't have an account?</p>
-
-        <a href="/register">Create an account</a>
+        Don't have an account?
+        <a href="/register">Register</a>
     </div>
 
 </div>
 
 </body>
+
 </html>

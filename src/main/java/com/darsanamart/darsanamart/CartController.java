@@ -1,5 +1,6 @@
 package com.darsanamart.darsanamart;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,20 +19,57 @@ public class CartController {
 
     @PostMapping("/cart/add")
     public String addToCart(
+            @RequestParam Long productId,
             @RequestParam String productName,
             @RequestParam double price,
-            @RequestParam int quantity) {
+            @RequestParam int quantity,
+            HttpSession session) {
 
-        Cart cart = new Cart(productName, price, quantity);
-        cartRepository.save(cart);
+        String username = (String) session.getAttribute("username");
 
-        return "redirect:/cart";
+        if (username == null) {
+            return "redirect:/";
+        }
+
+        Cart existingCart = cartRepository
+                .findByUsernameAndProductName(username, productName)
+                .orElse(null);
+
+        if (existingCart != null) {
+
+            existingCart.setQuantity(
+                    existingCart.getQuantity() + quantity
+            );
+
+            cartRepository.save(existingCart);
+
+        } else {
+
+            Cart cart = new Cart(
+                    username,
+                    productId,
+                    productName,
+                    price,
+                    quantity
+            );
+
+            cartRepository.save(cart);
+        }
+
+        // Stay on Products page
+        return "redirect:/products";
     }
 
     @GetMapping("/cart")
-    public String cart(Model model) {
+    public String cart(Model model, HttpSession session) {
 
-        var cartItems = cartRepository.findAll();
+        String username = (String) session.getAttribute("username");
+
+        if (username == null) {
+            return "redirect:/";
+        }
+
+        var cartItems = cartRepository.findByUsername(username);
 
         double total = 0;
 
@@ -41,14 +79,24 @@ public class CartController {
 
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", total);
+        model.addAttribute("username", username);
 
         return "cart";
     }
 
     @PostMapping("/cart/remove/{id}")
-    public String removeFromCart(@PathVariable Long id) {
+    public String removeFromCart(
+            @PathVariable Long id,
+            HttpSession session) {
 
-        cartRepository.deleteById(id);
+        String username = (String) session.getAttribute("username");
+
+        if (username == null) {
+            return "redirect:/";
+        }
+
+        cartRepository.findByIdAndUsername(id, username)
+                .ifPresent(cartRepository::delete);
 
         return "redirect:/cart";
     }

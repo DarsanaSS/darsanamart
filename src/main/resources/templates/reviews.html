@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DarsanaMart - Customer Reviews</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: green;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            width: 70%;
+            margin: 30px auto;
+        }
+
+        .review-form,
+        .reviews {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        .review {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 5px;
+        }
+
+        .review h3 {
+            margin: 0 0 8px 0;
+        }
+
+        .back-button {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px;
+            background-color: green;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .back-button:hover {
+            background-color: darkgreen;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>DarsanaMart</h1>
+    <p>Customer Reviews</p>
+</header>
+
+<div class="container">
+
+    <div class="review-form">
+
+        <h2>Write a Review</h2>
+
+        <form action="/reviews/add" method="post">
+
+            <label>Username</label>
+            <input type="text"
+                   name="username"
+                   required>
+
+            <label>Product</label>
+            <input type="text"
+                   name="productName"
+                   placeholder="Enter product name"
+                   required>
+
+            <label>Rating</label>
+            <select name="rating" required>
+                <option value="">Select Rating</option>
+                <option value="1">1 - Very Poor</option>
+                <option value="2">2 - Poor</option>
+                <option value="3">3 - Average</option>
+                <option value="4">4 - Good</option>
+                <option value="5">5 - Excellent</option>
+            </select>
+
+            <label>Comment</label>
+            <textarea name="comment"
+                      placeholder="Write your comment about the product"
+                      required></textarea>
+
+            <button type="submit">
+                Submit Review
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="reviews">
+
+        <h2>Customer Reviews</h2>
+
+        <div th:if="${#lists.isEmpty(reviews)}">
+            <p style="text-align:center;">
+                No reviews yet.
+            </p>
+        </div>
+
+        <div class="review"
+             th:each="review : ${reviews}">
+
+            <h3 th:text="${review.productName}">
+                Product Name
+            </h3>
+
+            <p>
+                <strong>Username:</strong>
+                <span th:text="${review.username}">
+                    Username
+                </span>
+            </p>
+
+            <p>
+                <strong>Rating:</strong>
+                <span th:text="${review.rating}">
+                    5
+                </span>/5
+            </p>
+
+            <p>
+                <strong>Comment:</strong>
+                <span th:text="${review.comment}">
+                    Comment
+                </span>
+            </p>
+
+        </div>
+
+    </div>
+
+    <a href="/products" class="back-button">
+        Back to Products
+    </a>
+
+</div>
+
+</body>
+
+</html>

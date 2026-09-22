@@ -13,21 +13,19 @@ public class User {
     private Long id;
 
     private String username;
+    private String email;
     private String password;
     private String role;
 
-    // Default constructor
     public User() {
     }
 
-    // Constructor
-    public User(String username, String password, String role) {
+    public User(String username, String email, String password, String role) {
         this.username = username;
+        this.email = email;
         this.password = password;
         this.role = role;
     }
-
-    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -43,6 +41,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

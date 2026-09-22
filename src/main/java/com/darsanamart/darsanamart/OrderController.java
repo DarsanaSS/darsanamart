@@ -1,5 +1,6 @@
 package com.darsanamart.darsanamart;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +21,15 @@ public class OrderController {
     }
 
     @GetMapping("/checkout")
-    public String checkout(Model model) {
+    public String checkout(Model model, HttpSession session) {
 
-        var cartItems = cartRepository.findAll();
+        String username = (String) session.getAttribute("username");
+
+        if (username == null) {
+            return "redirect:/";
+        }
+
+        var cartItems = cartRepository.findByUsername(username);
 
         double total = 0;
 
@@ -32,25 +39,41 @@ public class OrderController {
 
         model.addAttribute("cartItems", cartItems);
         model.addAttribute("total", total);
+        model.addAttribute("username", username);
 
         return "checkout";
     }
 
     @PostMapping("/order/place")
-    public String placeOrder() {
+    public String placeOrder(HttpSession session) {
 
-        var cartItems = cartRepository.findAll();
+        String username = (String) session.getAttribute("username");
 
-        double total = 0;
-
-        for (Cart item : cartItems) {
-            total += item.getPrice() * item.getQuantity();
+        if (username == null) {
+            return "redirect:/";
         }
 
-        Order order = new Order(total);
-        orderRepository.save(order);
+        var cartItems = cartRepository.findByUsername(username);
 
-        cartRepository.deleteAll();
+        for (Cart item : cartItems) {
+
+            double itemTotal =
+                    item.getPrice() * item.getQuantity();
+
+            Order order = new Order(
+                    username,
+                    item.getProductId(),
+                    item.getProductName(),
+                    item.getQuantity(),
+                    item.getPrice(),
+                    itemTotal
+            );
+
+            orderRepository.save(order);
+        }
+
+        // Remove only this user's cart items
+        cartRepository.deleteAll(cartItems);
 
         return "redirect:/order-success";
     }

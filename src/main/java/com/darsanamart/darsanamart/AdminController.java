@@ -10,9 +10,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AdminController {
 
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
-    public AdminController(ProductRepository productRepository) {
+    public AdminController(
+            ProductRepository productRepository,
+            OrderRepository orderRepository) {
+
         this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     @GetMapping("/admin")
@@ -40,5 +45,29 @@ public class AdminController {
         productRepository.save(product);
 
         return "redirect:/admin";
+    }
+
+    @GetMapping("/admin/orders")
+    public String viewOrders(Model model) {
+
+        model.addAttribute("orders", orderRepository.findAll());
+
+        return "admin-orders";
+    }
+
+    @GetMapping("/admin/manage-products")
+    public String manageProducts(Model model) {
+
+        model.addAttribute("products", productRepository.findAll());
+
+        return "manage-products";
+    }
+
+    @PostMapping("/admin/delete-product")
+    public String deleteProduct(@RequestParam Long id) {
+
+        productRepository.deleteById(id);
+
+        return "redirect:/admin/manage-products";
     }
 }

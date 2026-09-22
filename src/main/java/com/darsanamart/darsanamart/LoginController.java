@@ -1,5 +1,6 @@
 package com.darsanamart.darsanamart;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,14 +27,32 @@ public class LoginController {
 
     @PostMapping("/login")
     public String loginUser(
-            @RequestParam String username,
-            @RequestParam String password) {
+            @RequestParam String usernameOrEmail,
+            @RequestParam String password,
+            HttpSession session) {
 
-        return userRepository.findAll().stream()
-                .anyMatch(user ->
-                        user.getUsername().equals(username)
-                        && user.getPassword().equals(password))
-                ? "redirect:/products"
-                : "redirect:/";
+        User foundUser = userRepository.findAll().stream()
+                .filter(user ->
+                        (usernameOrEmail.equals(user.getUsername())
+                        || usernameOrEmail.equals(user.getEmail()))
+                        && password.equals(user.getPassword()))
+                .findFirst()
+                .orElse(null);
+
+        if (foundUser == null) {
+            return "redirect:/";
+        }
+
+        session.setAttribute("username", foundUser.getUsername());
+
+        if ("SELLER".equals(foundUser.getRole())) {
+            return "redirect:/admin";
+        }
+
+        if ("BUYER".equals(foundUser.getRole())) {
+            return "redirect:/products";
+        }
+
+        return "redirect:/";
     }
 }
