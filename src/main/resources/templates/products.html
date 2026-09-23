@@ -29,19 +29,21 @@
             margin: 8px 0 0;
         }
 
-        .search-box {
+        .filter-box {
             text-align: center;
             margin: 25px;
         }
 
-        .search-box input {
+        .filter-box input,
+        .filter-box select {
             padding: 10px;
-            width: 250px;
+            margin: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
 
-        .search-button {
+        .search-button,
+        .filter-button {
             padding: 10px 20px;
             background-color: green;
             color: white;
@@ -50,7 +52,8 @@
             cursor: pointer;
         }
 
-        .search-button:hover {
+        .search-button:hover,
+        .filter-button:hover {
             background-color: darkgreen;
         }
 
@@ -145,17 +148,47 @@
     <p>Products</p>
 </header>
 
-<!-- Search Products -->
+<!-- Search and Category Filter -->
 
-<form action="/products" method="get" class="search-box">
+<form action="/products" method="get" class="filter-box">
 
     <input type="text"
            name="search"
            th:value="${search}"
            placeholder="Search products...">
 
+    <select name="category">
+
+        <option value="">All Categories</option>
+
+        <option value="Groceries"
+                th:selected="${category == 'Groceries'}">
+            Groceries
+        </option>
+
+        <option value="Dairy"
+                th:selected="${category == 'Dairy'}">
+            Dairy
+        </option>
+
+        <option value="Snacks"
+                th:selected="${category == 'Snacks'}">
+            Snacks
+        </option>
+
+        <option value="Personal Care"
+                th:selected="${category == 'Personal Care'}">
+            Personal Care
+        </option>
+
+    </select>
+
     <button type="submit" class="search-button">
         Search
+    </button>
+
+    <button type="submit" class="filter-button">
+        Filter
     </button>
 
 </form>
@@ -169,6 +202,13 @@
         <h2 th:text="${product.name}">
             Product Name
         </h2>
+
+        <p>
+            <strong>Category:</strong>
+            <span th:text="${product.category}">
+                Category
+            </span>
+        </p>
 
         <p>
             <strong>Price:</strong>

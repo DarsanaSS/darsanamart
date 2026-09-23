@@ -19,17 +19,16 @@ public class ProductController {
     @GetMapping("/products")
     public String products(
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) String category,
             Model model) {
 
-        List<Product> products;
+        List<Product> products = productRepository.findAll();
 
-        if (search == null || search.trim().isEmpty()) {
-            products = productRepository.findAll();
-        } else {
+        if (search != null && !search.trim().isEmpty()) {
+
             String searchText = search.trim().toLowerCase();
 
-            products = productRepository.findAll()
-                    .stream()
+            products = products.stream()
                     .filter(product ->
                             product.getName()
                                     .toLowerCase()
@@ -37,8 +36,22 @@ public class ProductController {
                     .toList();
         }
 
+        if (category != null && !category.trim().isEmpty()) {
+
+            String categoryText = category.trim().toLowerCase();
+
+            products = products.stream()
+                    .filter(product ->
+                            product.getCategory() != null &&
+                            product.getCategory()
+                                    .toLowerCase()
+                                    .equals(categoryText))
+                    .toList();
+        }
+
         model.addAttribute("products", products);
         model.addAttribute("search", search);
+        model.addAttribute("category", category);
 
         return "products";
     }

@@ -38,9 +38,15 @@ public class AdminController {
     public String addProduct(
             @RequestParam String name,
             @RequestParam double price,
-            @RequestParam int quantity) {
+            @RequestParam int quantity,
+            @RequestParam String category) {
 
-        Product product = new Product(name, price, quantity);
+        Product product = new Product(
+                name,
+                price,
+                quantity,
+                category
+        );
 
         productRepository.save(product);
 
@@ -85,7 +91,8 @@ public class AdminController {
             @RequestParam Long id,
             @RequestParam String name,
             @RequestParam double price,
-            @RequestParam int quantity) {
+            @RequestParam int quantity,
+            @RequestParam String category) {
 
         Product product = productRepository.findById(id)
                 .orElse(null);
@@ -95,6 +102,7 @@ public class AdminController {
             product.setName(name);
             product.setPrice(price);
             product.setQuantity(quantity);
+            product.setCategory(category);
 
             productRepository.save(product);
         }

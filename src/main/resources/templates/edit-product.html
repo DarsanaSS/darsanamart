@@ -51,7 +51,8 @@
             font-weight: bold;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
             box-sizing: border-box;
             padding: 10px;
@@ -137,6 +138,36 @@
                    th:value="${product.quantity}"
                    min="0"
                    required>
+
+            <label>Category</label>
+
+            <select name="category" required>
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Groceries"
+                        th:selected="${product.category == 'Groceries'}">
+                    Groceries
+                </option>
+
+                <option value="Dairy"
+                        th:selected="${product.category == 'Dairy'}">
+                    Dairy
+                </option>
+
+                <option value="Snacks"
+                        th:selected="${product.category == 'Snacks'}">
+                    Snacks
+                </option>
+
+                <option value="Personal Care"
+                        th:selected="${product.category == 'Personal Care'}">
+                    Personal Care
+                </option>
+
+            </select>
 
             <button type="submit"
                     class="update-button">

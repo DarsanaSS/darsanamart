@@ -26,35 +26,41 @@
         }
 
         .container {
-            width: 50%;
-            margin: 50px auto;
+            width: 90%;
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        .form-box {
             background-color: white;
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
-        h2 {
+        .form-box h2 {
             text-align: center;
+            color: green;
             margin-bottom: 25px;
         }
 
         label {
             display: block;
             margin-top: 15px;
+            margin-bottom: 5px;
             font-weight: bold;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
-            padding: 12px;
-            margin-top: 8px;
             box-sizing: border-box;
+            padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
 
-        button {
+        .add-button {
             width: 100%;
             margin-top: 25px;
             padding: 12px;
@@ -62,55 +68,112 @@
             color: white;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
             cursor: pointer;
+            font-size: 16px;
         }
 
-        button:hover {
+        .add-button:hover {
             background-color: darkgreen;
         }
 
-        .back {
+        .back-button {
             display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #555;
+            color: white;
             text-align: center;
-            margin-top: 20px;
-            color: green;
             text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .back-button:hover {
+            background-color: #333;
         }
     </style>
+
 </head>
 
 <body>
 
 <header>
     <h1>DarsanaMart</h1>
-    <p>Admin Dashboard</p>
+    <p>Add Product</p>
 </header>
 
 <div class="container">
 
-    <h2>Add New Product</h2>
+    <div class="form-box">
 
-    <form action="/admin/add-product" method="post">
+        <h2>Add New Product</h2>
 
-        <label>Product Name</label>
-        <input type="text" name="name" required>
+        <form action="/admin/add-product" method="post">
 
-        <label>Price</label>
-        <input type="number" name="price" step="0.01" required>
+            <label>Product Name</label>
 
-        <label>Quantity</label>
-        <input type="number" name="quantity" min="0" required>
+            <input type="text"
+                   name="name"
+                   placeholder="Enter product name"
+                   required>
 
-        <button type="submit">
-            Add Product
-        </button>
+            <label>Price</label>
 
-    </form>
+            <input type="number"
+                   name="price"
+                   placeholder="Enter price"
+                   step="0.01"
+                   min="0"
+                   required>
 
-    <a href="/admin" class="back">
-        Back to Admin Dashboard
-    </a>
+            <label>Quantity</label>
+
+            <input type="number"
+                   name="quantity"
+                   placeholder="Enter quantity"
+                   min="0"
+                   required>
+
+            <label>Category</label>
+
+            <select name="category" required>
+
+                <option value="">
+                    Select Category
+                </option>
+
+                <option value="Groceries">
+                    Groceries
+                </option>
+
+                <option value="Dairy">
+                    Dairy
+                </option>
+
+                <option value="Snacks">
+                    Snacks
+                </option>
+
+                <option value="Personal Care">
+                    Personal Care
+                </option>
+
+            </select>
+
+            <button type="submit"
+                    class="add-button">
+                Add Product
+            </button>
+
+        </form>
+
+        <a href="/admin"
+           class="back-button">
+            Back to Admin Dashboard
+        </a>
+
+    </div>
 
 </div>
 
