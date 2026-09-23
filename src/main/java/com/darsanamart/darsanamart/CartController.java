@@ -56,7 +56,6 @@ public class CartController {
             cartRepository.save(cart);
         }
 
-        // Stay on Products page
         return "redirect:/products";
     }
 
@@ -82,6 +81,29 @@ public class CartController {
         model.addAttribute("username", username);
 
         return "cart";
+    }
+
+    @PostMapping("/cart/update/{id}")
+    public String updateCartQuantity(
+            @PathVariable Long id,
+            @RequestParam int quantity,
+            HttpSession session) {
+
+        String username = (String) session.getAttribute("username");
+
+        if (username == null) {
+            return "redirect:/";
+        }
+
+        cartRepository.findByIdAndUsername(id, username)
+                .ifPresent(cart -> {
+                    if (quantity > 0) {
+                        cart.setQuantity(quantity);
+                        cartRepository.save(cart);
+                    }
+                });
+
+        return "redirect:/cart";
     }
 
     @PostMapping("/cart/remove/{id}")
