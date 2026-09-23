@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS orders (
     product_name VARCHAR(255),
     quantity INT,
     price DOUBLE,
-    total DOUBLE
+    total DOUBLE,
+    status VARCHAR(50)
 );
 
 -- Reviews table
