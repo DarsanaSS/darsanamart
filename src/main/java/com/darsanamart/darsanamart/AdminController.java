@@ -11,13 +11,16 @@ public class AdminController {
 
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
     public AdminController(
             ProductRepository productRepository,
-            OrderRepository orderRepository) {
+            OrderRepository orderRepository,
+            UserRepository userRepository) {
 
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/admin")
@@ -116,5 +119,13 @@ public class AdminController {
         productRepository.deleteById(id);
 
         return "redirect:/admin/manage-products";
+    }
+
+    @GetMapping("/admin/users")
+    public String viewUsers(Model model) {
+
+        model.addAttribute("users", userRepository.findAll());
+
+        return "admin-users";
     }
 }
