@@ -25,15 +25,12 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String adminPage(Model model) {
-
         model.addAttribute("products", productRepository.findAll());
-
         return "admin";
     }
 
     @GetMapping("/admin/add-product")
     public String addProductPage() {
-
         return "add-product";
     }
 
@@ -64,11 +61,25 @@ public class AdminController {
         return "admin-orders";
     }
 
+    @PostMapping("/admin/update-order-status")
+    public String updateOrderStatus(
+            @RequestParam Long id,
+            @RequestParam String status) {
+
+        Order order = orderRepository.findById(id)
+                .orElse(null);
+
+        if (order != null) {
+            order.setStatus(status);
+            orderRepository.save(order);
+        }
+
+        return "redirect:/admin/orders";
+    }
+
     @GetMapping("/admin/manage-products")
     public String manageProducts(Model model) {
-
         model.addAttribute("products", productRepository.findAll());
-
         return "manage-products";
     }
 
@@ -101,7 +112,6 @@ public class AdminController {
                 .orElse(null);
 
         if (product != null) {
-
             product.setName(name);
             product.setPrice(price);
             product.setQuantity(quantity);

@@ -6,22 +6,26 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.List;
+
 @Controller
 public class OrderController {
 
-    private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
+    private final CartRepository cartRepository;
 
     public OrderController(
-            CartRepository cartRepository,
-            OrderRepository orderRepository) {
+            OrderRepository orderRepository,
+            CartRepository cartRepository) {
 
-        this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
+        this.cartRepository = cartRepository;
     }
 
     @GetMapping("/checkout")
-    public String checkout(Model model, HttpSession session) {
+    public String checkout(
+            HttpSession session,
+            Model model) {
 
         String username = (String) session.getAttribute("username");
 
@@ -29,7 +33,8 @@ public class OrderController {
             return "redirect:/";
         }
 
-        var cartItems = cartRepository.findByUsername(username);
+        List<Cart> cartItems =
+                cartRepository.findByUsername(username);
 
         double total = 0;
 
@@ -45,7 +50,8 @@ public class OrderController {
     }
 
     @PostMapping("/order/place")
-    public String placeOrder(HttpSession session) {
+    public String placeOrder(
+            HttpSession session) {
 
         String username = (String) session.getAttribute("username");
 
@@ -53,7 +59,8 @@ public class OrderController {
             return "redirect:/";
         }
 
-        var cartItems = cartRepository.findByUsername(username);
+        List<Cart> cartItems =
+                cartRepository.findByUsername(username);
 
         for (Cart item : cartItems) {
 
@@ -66,13 +73,13 @@ public class OrderController {
                     item.getProductName(),
                     item.getQuantity(),
                     item.getPrice(),
-                    itemTotal
+                    itemTotal,
+                    "Pending"
             );
 
             orderRepository.save(order);
         }
 
-        // Remove only this user's cart items
         cartRepository.deleteAll(cartItems);
 
         return "redirect:/order-success";
@@ -80,6 +87,7 @@ public class OrderController {
 
     @GetMapping("/order-success")
     public String orderSuccess() {
+
         return "order-success";
     }
 }

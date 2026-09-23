@@ -25,71 +25,48 @@
             margin: 0;
         }
 
-        header p {
-            margin: 8px 0 0;
-        }
-
         .container {
-            width: 90%;
-            max-width: 900px;
+            width: 95%;
             margin: 30px auto;
         }
 
-        .welcome {
-            text-align: center;
-            margin-bottom: 25px;
-            font-size: 18px;
-        }
-
-        .order {
+        table {
+            width: 100%;
+            border-collapse: collapse;
             background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
-        .order h2 {
-            margin-top: 0;
-            color: green;
+        th {
+            background-color: green;
+            color: white;
+            padding: 12px;
         }
 
-        .order p {
-            margin: 10px 0;
-        }
-
-        .no-orders {
-            background-color: white;
-            padding: 30px;
+        td {
+            padding: 12px;
             text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            border-bottom: 1px solid #ddd;
         }
 
-        .buttons {
-            text-align: center;
-            margin-top: 30px;
+        tr:hover {
+            background-color: #f1f1f1;
         }
 
         .button {
-            display: inline-block;
-            padding: 12px 20px;
-            margin: 5px;
+            display: block;
+            width: 220px;
+            margin: 20px auto;
+            padding: 12px;
+            background-color: green;
             color: white;
+            text-align: center;
             text-decoration: none;
             border-radius: 5px;
         }
 
-        .shopping-button {
-            background-color: green;
-        }
-
-        .cart-button {
-            background-color: #555;
-        }
-
         .button:hover {
-            opacity: 0.85;
+            background-color: darkgreen;
         }
     </style>
 
@@ -104,83 +81,71 @@
 
 <div class="container">
 
-    <div class="welcome">
-        Welcome, <strong th:text="${username}">User</strong>
-    </div>
+    <table>
 
-    <div th:if="${!#lists.isEmpty(orders)}">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product</th>
+                <th>Product ID</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
 
-        <div class="order"
-             th:each="order, orderStat : ${orders}">
+        <tbody>
 
-            <h2>
-                Order
-                <span th:text="${orderStat.index + 1}">1</span>
-            </h2>
+            <tr th:each="order : ${orders}">
 
-            <p>
-                <strong>Product:</strong>
-                <span th:text="${order.productName}">
-                    Product Name
-                </span>
-            </p>
-
-            <p>
-                <strong>Product ID:</strong>
-                <span th:text="${order.productId}">
+                <td th:text="${order.id}">
                     1
-                </span>
-            </p>
+                </td>
 
-            <p>
-                <strong>Quantity:</strong>
-                <span th:text="${order.quantity}">
+                <td th:text="${order.productName}">
+                    Product
+                </td>
+
+                <td th:text="${order.productId}">
                     1
-                </span>
-            </p>
+                </td>
 
-            <p>
-                <strong>Price:</strong>
-                ₹<span th:text="${order.price}">
-                    0
-                </span>
-            </p>
+                <td th:text="${order.quantity}">
+                    1
+                </td>
 
-            <p>
-                <strong>Total Amount:</strong>
-                ₹<span th:text="${order.total}">
-                    0
-                </span>
-            </p>
+                <td>
+                    ₹<span th:text="${order.price}">
+                        0
+                    </span>
+                </td>
 
-        </div>
+                <td>
+                    ₹<span th:text="${order.total}">
+                        0
+                    </span>
+                </td>
 
-    </div>
+                <td th:text="${order.status}">
+                    Pending
+                </td>
 
-    <div class="no-orders"
-         th:if="${#lists.isEmpty(orders)}">
+            </tr>
 
-        <h2>No Orders Found</h2>
+        </tbody>
 
-        <p>
-            You have not placed any orders yet.
-        </p>
+    </table>
 
-    </div>
+    <a href="/products"
+       class="button">
+        Continue Shopping
+    </a>
 
-    <div class="buttons">
-
-        <a href="/products"
-           class="button shopping-button">
-            Continue Shopping
-        </a>
-
-        <a href="/cart"
-           class="button cart-button">
-            View Cart
-        </a>
-
-    </div>
+    <a href="/cart"
+       class="button">
+        View Cart
+    </a>
 
 </div>
 
