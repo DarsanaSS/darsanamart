@@ -43,16 +43,30 @@ public class LoginController {
             return "redirect:/";
         }
 
+        // Store logged-in username in session
         session.setAttribute("username", foundUser.getUsername());
 
+        // Redirect seller to Admin Dashboard
         if ("SELLER".equals(foundUser.getRole())) {
             return "redirect:/admin";
         }
 
+        // Redirect buyer to Products
         if ("BUYER".equals(foundUser.getRole())) {
             return "redirect:/products";
         }
 
+        return "redirect:/";
+    }
+
+    // Logout
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+
+        // Clear the logged-in user's session
+        session.invalidate();
+
+        // Return to Login page
         return "redirect:/";
     }
 }
