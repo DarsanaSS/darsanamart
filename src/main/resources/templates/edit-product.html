@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DarsanaMart - Edit Product</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: green;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 500px;
+            margin: 40px auto;
+        }
+
+        .form-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-box h2 {
+            text-align: center;
+            color: green;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .update-button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .update-button:hover {
+            background-color: darkgreen;
+        }
+
+        .back-button {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #555;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .back-button:hover {
+            background-color: #333;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>DarsanaMart</h1>
+    <p>Edit Product</p>
+</header>
+
+<div class="container">
+
+    <div class="form-box">
+
+        <h2>Update Product</h2>
+
+        <form action="/admin/edit-product" method="post">
+
+            <input type="hidden"
+                   name="id"
+                   th:value="${product.id}">
+
+            <label>Product Name</label>
+
+            <input type="text"
+                   name="name"
+                   th:value="${product.name}"
+                   required>
+
+            <label>Price</label>
+
+            <input type="number"
+                   name="price"
+                   th:value="${product.price}"
+                   step="0.01"
+                   min="0"
+                   required>
+
+            <label>Quantity</label>
+
+            <input type="number"
+                   name="quantity"
+                   th:value="${product.quantity}"
+                   min="0"
+                   required>
+
+            <button type="submit"
+                    class="update-button">
+                Update Product
+            </button>
+
+        </form>
+
+        <a href="/admin/manage-products"
+           class="back-button">
+            Back to Manage Products
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

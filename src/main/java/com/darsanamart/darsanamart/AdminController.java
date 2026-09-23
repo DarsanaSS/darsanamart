@@ -63,6 +63,45 @@ public class AdminController {
         return "manage-products";
     }
 
+    @GetMapping("/admin/edit-product")
+    public String editProductPage(
+            @RequestParam Long id,
+            Model model) {
+
+        Product product = productRepository.findById(id)
+                .orElse(null);
+
+        if (product == null) {
+            return "redirect:/admin/manage-products";
+        }
+
+        model.addAttribute("product", product);
+
+        return "edit-product";
+    }
+
+    @PostMapping("/admin/edit-product")
+    public String editProduct(
+            @RequestParam Long id,
+            @RequestParam String name,
+            @RequestParam double price,
+            @RequestParam int quantity) {
+
+        Product product = productRepository.findById(id)
+                .orElse(null);
+
+        if (product != null) {
+
+            product.setName(name);
+            product.setPrice(price);
+            product.setQuantity(quantity);
+
+            productRepository.save(product);
+        }
+
+        return "redirect:/admin/manage-products";
+    }
+
     @PostMapping("/admin/delete-product")
     public String deleteProduct(@RequestParam Long id) {
 

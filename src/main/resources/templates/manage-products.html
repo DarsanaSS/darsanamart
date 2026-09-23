@@ -26,67 +26,75 @@
         }
 
         .container {
-            width: 85%;
+            width: 90%;
             margin: 30px auto;
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
-        }
-
-        h2 {
-            text-align: center;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 25px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: center;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
         }
 
         th {
             background-color: green;
             color: white;
+            padding: 15px;
+        }
+
+        td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .edit-button {
+            background-color: #2196F3;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .edit-button:hover {
+            background-color: #1976D2;
         }
 
         .delete-button {
-            padding: 8px 15px;
-            background-color: red;
+            background-color: #f44336;
             color: white;
+            padding: 8px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
 
         .delete-button:hover {
-            background-color: darkred;
+            background-color: #d32f2f;
         }
 
         .back-button {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 20px;
-            background-color: green;
+            display: block;
+            width: 220px;
+            margin: 30px auto;
+            padding: 12px;
+            background-color: #555;
             color: white;
+            text-align: center;
             text-decoration: none;
             border-radius: 5px;
         }
 
         .back-button:hover {
-            background-color: darkgreen;
-        }
-
-        .empty {
-            text-align: center;
-            padding: 30px;
-            color: #555;
+            background-color: #333;
         }
     </style>
 
@@ -95,27 +103,15 @@
 <body>
 
 <header>
-
     <h1>DarsanaMart</h1>
-
     <p>Manage Products</p>
-
 </header>
 
 <div class="container">
 
-    <h2>Product Management</h2>
-
-    <div th:if="${#lists.isEmpty(products)}" class="empty">
-
-        <p>No products available.</p>
-
-    </div>
-
-    <table th:unless="${#lists.isEmpty(products)}">
+    <table>
 
         <thead>
-
             <tr>
                 <th>ID</th>
                 <th>Product Name</th>
@@ -123,7 +119,6 @@
                 <th>Quantity</th>
                 <th>Action</th>
             </tr>
-
         </thead>
 
         <tbody>
@@ -139,7 +134,9 @@
                 </td>
 
                 <td>
-                    ₹<span th:text="${product.price}">0</span>
+                    ₹<span th:text="${product.price}">
+                        0
+                    </span>
                 </td>
 
                 <td th:text="${product.quantity}">
@@ -148,7 +145,16 @@
 
                 <td>
 
-                    <form action="/admin/delete-product" method="post">
+                    <!-- Edit Product -->
+                    <a th:href="@{/admin/edit-product(id=${product.id})}"
+                       class="edit-button">
+                        Edit
+                    </a>
+
+                    <!-- Delete Product -->
+                    <form action="/admin/delete-product"
+                          method="post"
+                          style="display: inline;">
 
                         <input type="hidden"
                                name="id"
@@ -169,8 +175,9 @@
 
     </table>
 
-    <a href="/admin" class="back-button">
-        ← Back to Admin Dashboard
+    <a href="/admin"
+       class="back-button">
+        Back to Admin Dashboard
     </a>
 
 </div>
