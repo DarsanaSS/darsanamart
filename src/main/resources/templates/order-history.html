@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DarsanaMart - Order History</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+
+        header {
+            background-color: green;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        header h1 {
+            margin: 0;
+        }
+
+        header p {
+            margin: 8px 0 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 18px;
+        }
+
+        .order {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .order h2 {
+            margin-top: 0;
+            color: green;
+        }
+
+        .order p {
+            margin: 10px 0;
+        }
+
+        .no-orders {
+            background-color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .buttons {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 5px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .shopping-button {
+            background-color: green;
+        }
+
+        .cart-button {
+            background-color: #555;
+        }
+
+        .button:hover {
+            opacity: 0.85;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<header>
+    <h1>DarsanaMart</h1>
+    <p>Order History</p>
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+        Welcome, <strong th:text="${username}">User</strong>
+    </div>
+
+    <div th:if="${!#lists.isEmpty(orders)}">
+
+        <div class="order"
+             th:each="order, orderStat : ${orders}">
+
+            <h2>
+                Order
+                <span th:text="${orderStat.index + 1}">1</span>
+            </h2>
+
+            <p>
+                <strong>Product:</strong>
+                <span th:text="${order.productName}">
+                    Product Name
+                </span>
+            </p>
+
+            <p>
+                <strong>Product ID:</strong>
+                <span th:text="${order.productId}">
+                    1
+                </span>
+            </p>
+
+            <p>
+                <strong>Quantity:</strong>
+                <span th:text="${order.quantity}">
+                    1
+                </span>
+            </p>
+
+            <p>
+                <strong>Price:</strong>
+                ₹<span th:text="${order.price}">
+                    0
+                </span>
+            </p>
+
+            <p>
+                <strong>Total Amount:</strong>
+                ₹<span th:text="${order.total}">
+                    0
+                </span>
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="no-orders"
+         th:if="${#lists.isEmpty(orders)}">
+
+        <h2>No Orders Found</h2>
+
+        <p>
+            You have not placed any orders yet.
+        </p>
+
+    </div>
+
+    <div class="buttons">
+
+        <a href="/products"
+           class="button shopping-button">
+            Continue Shopping
+        </a>
+
+        <a href="/cart"
+           class="button cart-button">
+            View Cart
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

@@ -25,6 +25,10 @@
             margin: 0;
         }
 
+        header p {
+            margin: 8px 0 0;
+        }
+
         .search-box {
             text-align: center;
             margin: 25px;
@@ -95,7 +99,8 @@
         }
 
         .review-button,
-        .cart-button {
+        .cart-button,
+        .order-history-button {
             display: block;
             width: 200px;
             margin: 15px auto;
@@ -113,6 +118,22 @@
         .cart-button {
             background-color: #555;
         }
+
+        .order-history-button {
+            background-color: #9C27B0;
+        }
+
+        .review-button:hover {
+            background-color: #1976D2;
+        }
+
+        .cart-button:hover {
+            background-color: #333;
+        }
+
+        .order-history-button:hover {
+            background-color: #7B1FA2;
+        }
     </style>
 
 </head>
@@ -125,6 +146,7 @@
 </header>
 
 <!-- Search Products -->
+
 <form action="/products" method="get" class="search-box">
 
     <input type="text"
@@ -139,6 +161,7 @@
 </form>
 
 <!-- Products -->
+
 <div class="products">
 
     <div class="product" th:each="product : ${products}">
@@ -154,9 +177,10 @@
             </span>
         </p>
 
+        <!-- Add to Cart -->
+
         <form action="/cart/add" method="post">
 
-            <!-- Product ID is hidden -->
             <input type="hidden"
                    name="productId"
                    th:value="${product.id}">
@@ -191,13 +215,21 @@
 </div>
 
 <!-- Write a Review -->
+
 <a href="/reviews" class="review-button">
     Write a Review
 </a>
 
 <!-- View Cart -->
+
 <a href="/cart" class="cart-button">
     View Cart
+</a>
+
+<!-- Order History -->
+
+<a href="/order-history" class="order-history-button">
+    Order History
 </a>
 
 </body>
